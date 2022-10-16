@@ -9,7 +9,7 @@ module.exports = {
        "host" : ["43.206.115.79"],
        "ref"  : "origin/main",
        "repo" : "git@github.com:strobelo/mc-control.git",
-       "path" : "/home/ubuntu/mc-control",
+       "path" : "/var/www/production",
        "post-deploy" : "npm install && pm2 startOrRestart ecosystem.json --env production"
     }
   }
