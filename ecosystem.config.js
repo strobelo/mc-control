@@ -10,7 +10,7 @@ module.exports = {
        "ref"  : "origin/main",
        "repo" : "git@github.com:strobelo/mc-control.git",
        "path" : "/home/ubuntu/mc-control",
-       "post-deploy" : "npm install && pm2 startOrRestart ecosystem.json --env production"
+       "post-deploy" : "npm install && pm2 startOrRestart ecosystem.config.js --env production"
     }
   }
 }
