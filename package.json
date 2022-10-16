@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "discord.js": "^14.6.0",
+    "dotenv": "^16.0.3"
+  },
+  "scripts": {
+    "build": "7z a -r ../mc-control.zip ./*",
+    "register": "node register.js",
+    "register-dev": "set NODE_ENV=development&& node register.js",
+    "deploy-code": "scp -i $SERVER_KEY -r . $SERVER_HOST:~/mc-control ",
+    "restart-server": "ssh -i $SERVER_KEY $SERVER_HOST 'forever restart index.js'",
+    "deploy": "npm run deploy-code && npm run restart-server && npm run register",
+    "deploy-dev": "npm run deploy-code && npm run restart-server && npm run register-dev"
+  }
+}
