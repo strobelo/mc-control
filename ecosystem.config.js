@@ -6,11 +6,11 @@ module.exports = {
   deploy : {
     production : {
        "user" : "ubuntu",
-       "host" : ["192.168.0.13"],
+       "host" : ["43.206.115.79"],
        "ref"  : "origin/master",
-       "repo" : "git@github.com:Username/repository.git",
-       "path" : "/var/www/my-repository",
-       "post-deploy" : "npm install"
+       "repo" : "git@github.com:strobelo/mc-control.git",
+       "path" : "~/mc-control",
+       "post-deploy" : "npm install && pm2 startOrRestart ecosystem.json --env production"
     }
   }
 }
