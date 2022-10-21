@@ -1,0 +1,7 @@
+services:
+  discord-bot:
+    image: public.ecr.aws/t6n3b0o7/mc-control:arm64
+    ports:
+      - "80:80"
+    env_file: .env
+    pull_policy: always

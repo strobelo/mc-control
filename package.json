@@ -1,15 +1,19 @@
 {
   "dependencies": {
+    "@aws-sdk/client-ec2": "^3.188.0",
     "discord.js": "^14.6.0",
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "forever": "^4.0.3",
+    "minecraft-server-ping": "^0.0.8"
   },
   "scripts": {
-    "build": "7z a -r ../mc-control.zip ./*",
-    "register": "node register.js",
-    "register-dev": "set NODE_ENV=development&& node register.js",
-    "deploy-code": "scp -i $SERVER_KEY -r . $SERVER_HOST:~/mc-control ",
-    "restart-server": "ssh -i $SERVER_KEY $SERVER_HOST 'forever restart index.js'",
-    "deploy": "npm run deploy-code && npm run restart-server && npm run register",
-    "deploy-dev": "npm run deploy-code && npm run restart-server && npm run register-dev"
+    "build": "docker --context default buildx build --platform linux/arm64 -t public.ecr.aws/t6n3b0o7/mc-control:arm64 --load .",
+    "ecr-auth": "aws ecr-public get-login-password --region us-east-1 | docker --context default login --username AWS --password-stdin public.ecr.aws/t6n3b0o7",
+    "push-image": "docker --context default push public.ecr.aws/t6n3b0o7/mc-control:arm64",
+    "register": "node src/register.js",
+    "server": "node index.js",
+    "deploy": "docker --context remote compose up --force-recreate -d && npm run register",
+    "ssh": "source .env; ssh $SERVER_HOST",
+    "bdep": "npm run ecr-auth && npm run build && npm run push-image && npm run deploy"
   }
 }
