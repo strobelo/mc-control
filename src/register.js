@@ -3,12 +3,7 @@ require('dotenv').config()
 
 const rest = new REST({ version: '10' }).setToken(process.env.BOT_TOKEN);
 
-const commands = [
-    new SlashCommandBuilder()
-    .setName("ping")
-    .setDescription("Replies with pong!"),
-
-    new SlashCommandBuilder()
+const mcCommand = new SlashCommandBuilder()
     .setName("mc")
     .setDescription("Control the Minecraft Server.")
     .addSubcommand(subcommand =>
@@ -35,7 +30,9 @@ const commands = [
         subcommand
             .setName("backup")
             .setDescription("Start a backup of the Minecraft server"))
-    .addSubcommand(subcommand =>
+
+if (process.env.NODE_ENV === "development") {
+    mcCommand.addSubcommand(subcommand =>
         subcommand
             .setName("stop-if-empty")
             .setDescription("Manually trigger the 'stop server if empty' sequence"))
@@ -43,6 +40,10 @@ const commands = [
         subcommand
             .setName("update-status")
             .setDescription("Manually trigger the 'update bot status' sequence"))
+}
+
+let commands = [
+    mcCommand    
 ];
 
 const commandsJson = commands.map(command => command.toJSON());
@@ -51,8 +52,10 @@ const commandsJson = commands.map(command => command.toJSON());
   try {
     console.log('Started refreshing application (/) commands.');
     if (process.env.NODE_ENV == "development") {
+        console.log('Development environment enabled: Syncing only guild commands for testing.');
         await rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.GUILD_ID), { body: commandsJson });
     } else {
+        console.log('Production environment enabled: Syncing global commands.');
         await rest.put(Routes.applicationCommands(process.env.CLIENT_ID), { body: commandsJson });
     }
     
