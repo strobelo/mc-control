@@ -102,6 +102,10 @@ class MinecraftServer {
         return this.shutdown_next_time
     }
 
+    getShutdownAfterMinutes() {
+        return parseInt(process.env.SHUTDOWN_AFTER)
+    }
+
     getChannels() {
         // const channel = this.client.channels.cache.get(process.env.CHANNEL_ID);
         // const channels = this.client.channels.cache.getAll("name", process.env.CHANNEL_NAME)
@@ -136,9 +140,11 @@ class MinecraftServer {
                         let message = await channel.send(
                             {content: message_content, components: [actionRow]}
                         );
-                        setTimeout(() => {
-                            message.edit({content: message_content, components: []})
-                        },  5 * minutes)
+                        const callback = async () => {
+                            message.edit({content: message_content, components: []});
+                            this.checkShutdownSchedule();
+                        }
+                        setTimeout(callback.bind(this), this.getShutdownAfterMinutes())
                     })
                     console.log(`Scheduling shutdown for next sequence.`)
                     this.scheduleNextShutdown();

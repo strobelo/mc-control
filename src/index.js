@@ -39,7 +39,8 @@ client.on('interactionCreate', async interaction => {
     }
 
     if (interaction.options.getSubcommand() === "info") {
-        await interaction.reply(`Modpack: [All of Fabric 5](https://www.curseforge.com/minecraft/modpacks/all-of-fabric-5)\nServer Address: ${minecraft.getServerHost()}`);
+        const address = await minecraft.getServerHost()
+        await interaction.reply(`Modpack: [All of Fabric 5](https://www.curseforge.com/minecraft/modpacks/all-of-fabric-5)\nServer: \`${address}\``);
     }
 
     if (interaction.options.getSubcommand() === "stop") {
@@ -157,7 +158,7 @@ const update_status_every = parseInt(process.env.UPDATE_STATUS_EVERY);
 
 // setInterval(minecraft.attemptShutdownIfEmpty.bind(minecraft), 30 * minutes)
 setInterval(minecraft.updateShutdownSchedule.bind(minecraft), update_shutdown_schedule_every * minutes)
-setInterval(minecraft.checkShutdownSchedule.bind(minecraft), check_shutdown_schedule_every * minutes)
+// setInterval(minecraft.checkShutdownSchedule.bind(minecraft), check_shutdown_schedule_every * minutes)
 setInterval(minecraft.updateStatus.bind(minecraft), update_status_every * minutes)
 
 client.login(process.env.BOT_TOKEN);
