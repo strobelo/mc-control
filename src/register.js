@@ -30,6 +30,25 @@ const mcCommand = new SlashCommandBuilder()
         subcommand
             .setName("backup")
             .setDescription("Start a backup of the Minecraft server"))
+    .addSubcommand(subcommand =>
+        subcommand
+            .setName("save")
+            .setDescription("Save the Minecraft server"))
+    .addSubcommand(subcommand =>
+        subcommand
+            .setName("say")
+            .setDescription("Send a message to players on the Minecraft server")
+            .addStringOption(option =>
+                option
+                    .setName('message')
+                    .setDescription('The message to send to the players on on the server')
+                ))
+    .addSubcommand(subcommand =>
+        subcommand
+            .setName("refresh")
+            .setDescription("Refresh the shutdown timer manually to keep the server alive")
+        )
+            
 
 if (process.env.NODE_ENV === "development") {
     mcCommand.addSubcommand(subcommand =>

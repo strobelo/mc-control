@@ -4,7 +4,8 @@
     "discord.js": "^14.6.0",
     "dotenv": "^16.0.3",
     "forever": "^4.0.3",
-    "minecraft-server-ping": "^0.0.8"
+    "minecraft-server-ping": "^0.0.8",
+    "node-ssh": "^13.0.0"
   },
   "scripts": {
     "build": "docker --context default buildx build --platform linux/arm64 -t public.ecr.aws/t6n3b0o7/mc-control:arm64 --load .",
